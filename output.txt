@@ -1,0 +1,53 @@
+INIT_ARCH ( 54 , main , main )
+	CREATE_REG ( r3 , ARCH+45 ) 
+	CREATE_REG ( r2 , ARCH+36 ) 
+	CREATE_WIRE ( w1 , ARCH+0 ) 
+	CREATE_WIRE ( w2 , ARCH+9 ) 
+	CREATE_WIRE ( w3 , ARCH+18 ) 
+	CREATE_REG ( r1 , ARCH+27 ) 
+	CREATE_INITIAL_PROC ( initial1 ) 
+	CREATE_ALWAYS_PROC ( always1 ) 
+	CREATE_ALWAYS_PROC ( always2 ) 
+	CREATE_ASSIGN_PROC ( assign1 ) 
+	CREATE_ASSIGN_PROC ( assign2 ) 
+	ADD_TRIGGERS ( ARCH+36 , always2 ) 
+	ADD_TRIGGERS ( ARCH+36 , assign2 ) 
+	ADD_TRIGGERS ( ARCH+27 , always1 ) 
+	ADD_TRIGGERS ( ARCH+27 , assign1 ) 
+	ADD_DRIVER ( 0 , 1 )
+	ADD_DRIVER ( 9 , 2 )
+	CREATE_MONITOR ( 0 , 9 , 18 , 27 , 36 , 45 ) 
+-> main :
+-> initial1 :
+	STORE	ARCH+27 1'b0  
+	LOAD	t1 ARCH+27  
+	NOT	t2 t1  
+	MOVE	ARCH+45 t2  
+-> delay2 :
+	LOAD	t3 ARCH+0  
+	LOAD	t4 ARCH+0  
+	OR	t5 t3 t4 
+	MOVE	ARCH+36 t5  
+	LOAD	t6 ARCH+27  
+	LOAD	t7 ARCH+36  
+	OR	t8 t6 t7 
+	LOAD	t9 ARCH+45  
+	AND	t10 t9 t8 
+	MOVE	ARCH+45 t10  
+-> always1 :
+-> delay2 :
+	LOAD	t11 ARCH+45  
+	LOAD	t12 ARCH+27  
+	OR	t13 t11 t12 
+	MOVE	ARCH+36 t13  
+-> always2 :
+-> delay2 :
+	LOAD	t14 ARCH+45  
+	LOAD	t15 ARCH+27  
+	OR	t16 t14 t15 
+	MOVE	ARCH+36 t16  
+-> before_init :
+-> assign1 :
+	UPDATE_DRIVER	ARCH+0 ARCH+27  
+-> assign2 :
+	UPDATE_DRIVER	ARCH+9 ARCH+36  
